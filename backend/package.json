@@ -5,10 +5,12 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "dependencies": {
+    "@arcjet/inspect": "1.0.0-beta.10",
+    "@arcjet/node": "^1.0.0-beta.10",
     "bcrypt": "^6.0.0",
     "bcryptjs": "2.4.3",
     "cloudinary": "2.5.1",
