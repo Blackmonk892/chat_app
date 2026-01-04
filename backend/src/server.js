@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import path from "path";
+import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import { ENV } from "./lib/env.js";
@@ -15,6 +16,15 @@ const __dirname = path.resolve();
 const PORT = ENV.PORT || 3000;
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: ENV.CLIENT_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);
+console.log("CORS Origin:", ENV.CLIENT_URL);
+
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
