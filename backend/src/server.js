@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 import path from "path";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -10,6 +11,8 @@ import messagesRoutes from "./routers/message.route.js";
 import { connectDB } from "./lib/db.js";
 
 const app = express();
+
+// Allow larger JSON payloads app.use(bodyParser.json({ limit: "10mb" })); app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 
 const __dirname = path.resolve();
 
