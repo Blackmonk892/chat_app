@@ -9,8 +9,7 @@ import { ENV } from "./lib/env.js";
 import authRoutes from "./routers/auth.route.js";
 import messagesRoutes from "./routers/message.route.js";
 import { connectDB } from "./lib/db.js";
-
-const app = express();
+import { app, server } from "./lib/socket.js";
 
 // Allow larger JSON payloads app.use(bodyParser.json({ limit: "10mb" })); app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 
@@ -41,7 +40,7 @@ if (ENV.NODE_ENV === "production") {
   });
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   connectDB();
 });

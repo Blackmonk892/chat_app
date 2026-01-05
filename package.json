@@ -1,0 +1,16 @@
+{
+  "name": "chatify-app",
+  "version": "1.0.0",
+  "main": "server.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "bun install --prefix backend && bun install --prefix frontend && bun run build --prefix frontend",
+    "start": "bun run start --prefix backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
