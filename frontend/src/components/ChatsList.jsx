@@ -22,7 +22,7 @@ function ChatsList() {
       {chats.map((chat) => (
         <div
           key={chat._id}
-          className="bg-cyan-500/10 p-4 rounded-lg cursor-pointer hover:bg-cyan-500/20 transition-colors"
+          className="bg-base-200/50 p-4 rounded-none cursor-pointer hover:bg-primary/10 transition-colors border-b border-white/5"
           onClick={() => setSelectedUser(chat)}
         >
           <div className="flex items-center gap-3">
@@ -31,14 +31,14 @@ function ChatsList() {
                 onlineUsers.includes(chat._id) ? "online" : "offline"
               }`}
             >
-              <div className="size-12 rounded-full">
+              <div className="size-12 rounded-full border border-primary/20">
                 <img
                   src={chat.profilePic || "/avatar.png"}
                   alt={chat.fullName}
                 />
               </div>
             </div>
-            <h4 className="text-slate-200 font-medium truncate">
+            <h4 className="text-base-content font-mono font-medium truncate">
               {chat.fullName}
             </h4>
           </div>

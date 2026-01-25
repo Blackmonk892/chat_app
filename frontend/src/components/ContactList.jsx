@@ -19,7 +19,7 @@ function ContactList() {
       {allContacts.map((contact) => (
         <div
           key={contact._id}
-          className="bg-cyan-500/10 p-4 rounded-lg cursor-pointer hover:bg-cyan-500/20 transition-colors"
+          className="bg-base-200/50 p-4 rounded-none cursor-pointer hover:bg-primary/10 transition-colors border-b border-white/5"
           onClick={() => setSelectedUser(contact)}
         >
           <div className="flex items-center gap-3">
@@ -28,11 +28,11 @@ function ContactList() {
                 onlineUsers.includes(contact._id) ? "online" : "offline"
               }`}
             >
-              <div className="size-12 rounded-full">
+              <div className="size-12 rounded-full border border-primary/20">
                 <img src={contact.profilePic || "/avatar.png"} />
               </div>
             </div>
-            <h4 className="text-slate-200 font-medium">{contact.fullName}</h4>
+            <h4 className="text-base-content font-mono font-medium">{contact.fullName}</h4>
           </div>
         </div>
       ))}

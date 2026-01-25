@@ -45,18 +45,18 @@ function MessageInput() {
   };
 
   return (
-    <div className="p-4 border-t border-slate-700/50">
+    <div className="p-4 border-t border-white/10 bg-base-300/50 backdrop-blur-sm">
       {imagePreview && (
         <div className="max-w-3xl mx-auto mb-3 flex items-center">
           <div className="relative">
             <img
               src={imagePreview}
               alt="Preview"
-              className="w-20 h-20 object-cover rounded-lg border border-slate-700"
+              className="w-20 h-20 object-cover border border-primary/50"
             />
             <button
               onClick={removeImage}
-              className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-slate-200 hover:bg-slate-700"
+              className="absolute -top-2 -right-2 w-6 h-6 bg-base-100 flex items-center justify-center text-error hover:text-error/80 border border-error/50 rounded-none transition-colors"
               type="button"
             >
               <XIcon className="w-4 h-4" />
@@ -67,7 +67,7 @@ function MessageInput() {
 
       <form
         onSubmit={handleSendMessage}
-        className="max-w-3xl mx-auto flex space-x-4"
+        className="max-w-3xl mx-auto flex space-x-4 items-center"
       >
         <input
           type="text"
@@ -76,8 +76,8 @@ function MessageInput() {
             setText(e.target.value);
             isSoundEnabled && playRandomKeyStrokeSound();
           }}
-          className="flex-1 bg-slate-800/50 border border-slate-700/50 rounded-lg py-2 px-4 text-white placeholder-slate-400"
-          placeholder="Type your message..."
+          className="flex-1 input input-hacker bg-base-200/50 border-primary/20 focus:border-primary/80 placeholder-base-content/30 text-white"
+          placeholder="> Type command to send message..."
         />
 
         <input
@@ -91,8 +91,8 @@ function MessageInput() {
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className={`bg-slate-800/50 text-slate-400 hover:text-slate-200 rounded-lg px-4 transition-colors ${
-            imagePreview ? "text-cyan-500" : ""
+          className={`flex items-center justify-center size-10 text-base-content/60 hover:text-primary transition-colors border border-transparent hover:border-primary/20 ${
+            imagePreview ? "text-primary" : ""
           }`}
         >
           <ImageIcon className="w-5 h-5" />
@@ -100,9 +100,9 @@ function MessageInput() {
         <button
           type="submit"
           disabled={!text.trim() && !imagePreview}
-          className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-lg px-4 py-2 font-medium hover:from-cyan-600 hover:to-cyan-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn btn-hacker w-auto px-6 h-10 min-h-0 bg-primary hover:bg-primary/80 text-black border-none disabled:opacity-50"
         >
-          <SendIcon className="w-5 h-5" />
+          <SendIcon className="w-4 h-4" />
         </button>
       </form>
     </div>

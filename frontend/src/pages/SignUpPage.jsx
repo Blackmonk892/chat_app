@@ -24,117 +24,109 @@ function SignUpPage() {
   };
 
   return (
-    <div className="w-full flex items-center justify-center p-4 bg-slate-900">
+    <div className="w-full flex items-center justify-center p-4 bg-transparent transition-colors font-mono">
       <div className="relative w-full max-w-6xl md:h-[800px] h-[650px]">
         <BorderAnimatedContainer>
-          <div className="w-full flex flex-col md:flex-row">
+          <div className="w-full flex flex-col md:flex-row glass-card h-full overflow-hidden">
             {/* FORM CLOUMN - LEFT SIDE */}
-            <div className="md:w-1/2 p-8 flex items-center justify-center md:border-r border-slate-600/30">
+            <div className="md:w-1/2 p-8 flex items-center justify-center md:border-r border-white/10">
               <div className="w-full max-w-md">
                 {/* HEADING TEXT */}
                 <div className="text-center mb-8">
-                  <MessageCircleIcon className="w-12 h-12 mx-auto text-slate-400 mb-4" />
-                  <h2 className="text-2xl font-bold text-slate-200 mb-2">
-                    Create Account
-                  </h2>
-                  <p className="text-slate-400">Sign up for a new account</p>
+                  <div className="flex flex-col items-center gap-2 group">
+                    <div
+                      className="size-12 rounded-none bg-primary/10 flex items-center justify-center 
+                    group-hover:bg-primary/20 transition-colors border border-primary/20"
+                    >
+                      <MessageCircleIcon className="size-6 text-primary" />
+                    </div>
+                    <h1 className="text-2xl font-bold mt-2 text-white font-mono uppercase tracking-widest">Create Account</h1>
+                    <p className="text-base-content/60 font-mono text-sm">Initialize new user protocol</p>
+                  </div>
                 </div>
 
                 {/* FORM */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* FULL NAME */}
                   <div>
-                    <label className="auth-input-label">Full Name</label>
+                    <label className="auth-input-label">Identity</label>
                     <div className="relative">
                       <UserIcon className="auth-input-icon" />
-
                       <input
                         type="text"
+                        className="input input-hacker pl-10"
+                        placeholder="John Doe"
                         value={formData.fullName}
-                        onChange={(e) =>
-                          setFormData({ ...formData, fullName: e.target.value })
-                        }
-                        className="input"
-                        placeholder="Kabir Thapad"
+                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                       />
                     </div>
                   </div>
 
                   {/* EMAIL INPUT */}
                   <div>
-                    <label className="auth-input-label">Email</label>
+                    <label className="auth-input-label">Comms ID</label>
                     <div className="relative">
                       <MailIcon className="auth-input-icon" />
-
                       <input
                         type="email"
+                        className="input input-hacker pl-10"
+                        placeholder="you@example.com"
                         value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                        className="input"
-                        placeholder="Kabirthapad78@gmail.com"
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       />
                     </div>
                   </div>
 
                   {/* PASSWORD INPUT */}
                   <div>
-                    <label className="auth-input-label">Password</label>
+                    <label className="auth-input-label">Access Key</label>
                     <div className="relative">
                       <LockIcon className="auth-input-icon" />
-
                       <input
                         type="password"
+                        className="input input-hacker pl-10"
+                        placeholder="••••••••"
                         value={formData.password}
-                        onChange={(e) =>
-                          setFormData({ ...formData, password: e.target.value })
-                        }
-                        className="input"
-                        placeholder="Enter your password"
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                       />
                     </div>
                   </div>
 
                   {/* SUBMIT BUTTON */}
-                  <button
-                    className="auth-btn"
-                    type="submit"
-                    disabled={isSigningUp}
-                  >
+                  <button type="submit" className="auth-btn" disabled={isSigningUp}>
                     {isSigningUp ? (
-                      <LoaderIcon className="w-full h-5 animate-spin text-center" />
+                      <LoaderIcon className="size-5 animate-spin mx-auto text-black" />
                     ) : (
-                      "Create Account"
+                      "Initialize"
                     )}
                   </button>
                 </form>
 
                 <div className="mt-6 text-center">
                   <Link to="/login" className="auth-link">
-                    Already have an account? Login
+                    Already operational? System Login
                   </Link>
                 </div>
               </div>
             </div>
 
             {/* FORM ILLUSTRATION - RIGHT SIDE */}
-            <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-slate-800/20 to-transparent">
-              <div>
-                <img
-                  src="/signup_icon_four.png"
-                  alt="People using mobile devices"
-                  className="w-full h-auto object-contain"
-                />
-                <div className="mt-6 text-center">
-                  <h3 className="text-xl font-medium text-cyan-400">
-                    Start Your Journey Today
+            <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-base-300/40 to-transparent relative overflow-hidden">
+               <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ff0008_1px,transparent_1px),linear-gradient(to_bottom,#00ff0008_1px,transparent_1px)] bg-[size:24px_24px]" />
+              <div className="relative z-10 text-center">
+                <div className="mb-8 relative inline-block">
+                   <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
+                   <MessageCircleIcon className="w-32 h-32 text-primary relative z-10 animate-pulse" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-primary tracking-wider uppercase mb-4">
+                    Join The Network
                   </h3>
 
                   <div className="mt-4 flex justify-center gap-4">
                     <span className="auth-badge">Free</span>
-                    <span className="auth-badge">Easy Setup</span>
-                    <span className="auth-badge">Private</span>
+                    <span className="auth-badge">Secure</span>
+                    <span className="auth-badge">Encrypted</span>
                   </div>
                 </div>
               </div>

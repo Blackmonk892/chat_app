@@ -7,10 +7,10 @@ function ActiveTabSwitch() {
     <div className="tabs tabs-boxed bg-transparent p-2 m-2">
       <button
         onClick={() => setActiveTab("chats")}
-        className={`tab ${
+        className={`tab flex-1 font-mono transition-all duration-300 rounded-none ${
           activeTab === "chats"
-            ? "bg-cyan-500/20 text-cyan-400"
-            : "text-slate-400"
+            ? "bg-primary text-black font-bold border-b-2 border-primary"
+            : "text-base-content/60 hover:text-base-content"
         }`}
       >
         Chats
@@ -18,10 +18,10 @@ function ActiveTabSwitch() {
 
       <button
         onClick={() => setActiveTab("contacts")}
-        className={`tab ${
+        className={`tab flex-1 font-mono transition-all duration-300 rounded-none ${
           activeTab === "contacts"
-            ? "bg-cyan-500/20 text-cyan-400"
-            : "text-slate-400"
+            ? "bg-primary text-black font-bold border-b-2 border-primary"
+            : "text-base-content/60 hover:text-base-content"
         }`}
       >
         Contacts

@@ -19,21 +19,21 @@ function LoginPage() {
   };
 
   return (
-    <div className="w-full flex items-center justify-center p-4 bg-slate-900">
+    <div className="w-full flex items-center justify-center p-4 bg-transparent transition-colors font-mono">
       <div className="relative w-full max-w-6xl md:h-[800px] h-[650px]">
         <BorderAnimatedContainer>
-          <div className="w-full flex flex-col md:flex-row">
+          <div className="w-full flex flex-col md:flex-row glass-card h-full overflow-hidden">
             {/* FORM CLOUMN - LEFT SIDE */}
-            <div className="md:w-1/2 p-8 flex items-center justify-center md:border-r border-slate-600/30">
+            <div className="md:w-1/2 p-8 flex items-center justify-center md:border-r border-white/10">
               <div className="w-full max-w-md">
                 {/* HEADING TEXT */}
                 <div className="text-center mb-8">
-                  <MessageCircleIcon className="w-12 h-12 mx-auto text-slate-400 mb-4" />
-                  <h2 className="text-2xl font-bold text-slate-200 mb-2">
-                    Welcome Back
+                  <MessageCircleIcon className="w-12 h-12 mx-auto text-primary mb-4 animate-pulse" />
+                  <h2 className="text-2xl font-bold text-white mb-2 uppercase tracking-widest">
+                    System Login
                   </h2>
-                  <p className="text-slate-400">
-                    Login to access to your account
+                  <p className="text-base-content/60 text-sm">
+                    Enter credentials to access secure terminal
                   </p>
                 </div>
 
@@ -51,7 +51,7 @@ function LoginPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, email: e.target.value })
                         }
-                        className="input"
+                        className="input input-hacker pl-10"
                         placeholder="johndoe@gmail.com"
                       />
                     </div>
@@ -69,7 +69,7 @@ function LoginPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, password: e.target.value })
                         }
-                        className="input"
+                        className="input input-hacker pl-10"
                         placeholder="Enter your password"
                       />
                     </div>
@@ -84,36 +84,36 @@ function LoginPage() {
                     {isLoggingIn ? (
                       <LoaderIcon className="w-full h-5 animate-spin text-center" />
                     ) : (
-                      "Sign In"
+                      "Authenticate"
                     )}
                   </button>
                 </form>
 
                 <div className="mt-6 text-center">
                   <Link to="/signup" className="auth-link">
-                    Don't have an account? Sign Up
+                    New User? Initialize Account
                   </Link>
                 </div>
               </div>
             </div>
 
             {/* FORM ILLUSTRATION - RIGHT SIDE */}
-            <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-slate-800/20 to-transparent">
-              <div>
-                <img
-                  src="/login.png"
-                  alt="People using mobile devices"
-                  className="w-full h-auto object-contain"
-                />
+            <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-base-300/40 to-transparent relative overflow-hidden">
+               <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ff0008_1px,transparent_1px),linear-gradient(to_bottom,#00ff0008_1px,transparent_1px)] bg-[size:24px_24px]" />
+              <div className="relative z-10">
+                <div className="mb-8 relative">
+                   <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
+                   <MessageCircleIcon className="w-32 h-32 text-primary mx-auto relative z-10" />
+                </div>
                 <div className="mt-6 text-center">
-                  <h3 className="text-xl font-medium text-cyan-400">
-                    Connect anytime, anywhere
+                  <h3 className="text-xl font-bold text-primary tracking-wider uppercase mb-4">
+                    Secure Connection
                   </h3>
 
                   <div className="mt-4 flex justify-center gap-4">
-                    <span className="auth-badge">Free</span>
-                    <span className="auth-badge">Easy Setup</span>
-                    <span className="auth-badge">Private</span>
+                    <span className="auth-badge group-hover:bg-primary transition-colors">Encrypted</span>
+                    <span className="auth-badge">Anonymous</span>
+                    <span className="auth-badge">Real-time</span>
                   </div>
                 </div>
               </div>
