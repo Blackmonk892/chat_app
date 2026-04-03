@@ -1,30 +1,69 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import useKeyboardSound from "../hooks/useKeyboardSound";
 import { useChatStore } from "../store/useChatStore";
 import toast from "react-hot-toast";
 import { ImageIcon, SendIcon, XIcon } from "lucide-react";
+import { useAuthStore } from "../store/useAuthStore";
 
 function MessageInput() {
   const { playRandomKeyStrokeSound } = useKeyboardSound();
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
-
   const fileInputRef = useRef(null);
+  const typingTimeoutRef = useRef(null); // Ref to manage the typing debounce timeout
 
-  const { sendMessage, isSoundEnabled } = useChatStore();
+  const { sendMessage, isSoundEnabled, selectedUser } = useChatStore();
+  const { socket } = useAuthStore();
+
+  const emitStopTyping = () => {
+    if (socket && selectedUser) {
+      socket.emit("typing:stop", { to: selectedUser._id });
+    }
+  };
+
+  const handleInputChange = (e) => {
+    // Modified to handle typing events
+    const newText = e.target.value;
+    setText(newText);
+
+    if (isSoundEnabled) playRandomKeyStrokeSound();
+
+    if (!socket || !selectedUser) return;
+
+    // If the user wasn't typing, emit 'typing:start'
+    if (!typingTimeoutRef.current && newText.length > 0) {
+      socket.emit("typing:start", { to: selectedUser._id });
+    } else {
+      // If they are typing, clear the previous timeout to debounce 'typing:stop'
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    // Set a new timeout to emit 'typing:stop' after 2 seconds of inactivity
+    typingTimeoutRef.current = setTimeout(() => {
+      emitStopTyping();
+      typingTimeoutRef.current = null; // Clear the ref once typing stops
+    }, 2000);
+  };
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (!text.trim() && !imagePreview) return;
-    if (isSoundEnabled) playRandomKeyStrokeSound();
 
     sendMessage({
       text: text.trim(),
       image: imagePreview,
     });
+
     setText("");
     setImagePreview("");
     if (fileInputRef.current) fileInputRef.current.value = "";
+
+    // Stop typing immediately when a message is sent
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = null;
+    }
+    emitStopTyping(); // Ensure 'typing:stop' is sent
   };
 
   const handleImageChange = (e) => {
@@ -43,6 +82,16 @@ function MessageInput() {
     setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
+
+  // Cleanup on unmount or when selectedUser changes (e.g., switching chats)
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+        emitStopTyping(); // Ensure 'typing:stop' is sent if component unmounts while typing
+      }
+    };
+  }, [selectedUser, socket]); // Add socket to dependencies for cleanup
 
   return (
     <div className="p-4 border-t border-white/10 bg-base-300/50 backdrop-blur-sm">
@@ -72,10 +121,7 @@ function MessageInput() {
         <input
           type="text"
           value={text}
-          onChange={(e) => {
-            setText(e.target.value);
-            isSoundEnabled && playRandomKeyStrokeSound();
-          }}
+          onChange={handleInputChange}
           className="flex-1 input input-hacker bg-base-200/50 border-primary/20 focus:border-primary/80 placeholder-base-content/30 text-white"
           placeholder="> Type command to send message..."
         />

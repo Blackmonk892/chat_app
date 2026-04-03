@@ -2,6 +2,7 @@
 import { Server } from "socket.io";
 import { ENV } from "../config/env.js";
 import { socketAuthMiddleware } from "../middleware/socket.auth.middleware.js";
+import registerTypingHandlers from "./typing.socket.js";
 
 let io;
 const userSocketMap = {};
@@ -23,6 +24,8 @@ export const initSockets = (server) => {
     userSocketMap[userId] = socket.id;
 
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
+
+    registerTypingHandlers(socket, io, userSocketMap);
 
     socket.on("disconnect", () => {
       console.log("A user disconnected", socket.user.fullName);

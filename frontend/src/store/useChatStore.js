@@ -12,14 +12,17 @@ export const useChatStore = create((set, get) => ({
   isUsersLoading: false,
   isMessagesLoading: false,
   isSoundEnabled: JSON.parse(localStorage.getItem("isSoundEnabled")) === true,
+  isTyping: false,
 
   toggleSound: () => {
     localStorage.setItem("isSoundEnabled", !get().isSoundEnabled);
     set({ isSoundEnabled: !get().isSoundEnabled });
   },
 
+  setIsTyping: (isTyping) => set({ isTyping }),
   setActiveTab: (tab) => set({ activeTab: tab }),
-  setSelectedUser: (selectedUser) => set({ selectedUser }),
+  // When we select a new user, we should reset the typing status
+  setSelectedUser: (selectedUser) => set({ selectedUser, isTyping: false }),
 
   getAllContacts: async () => {
     set({ isUsersLoading: true });
@@ -78,7 +81,7 @@ export const useChatStore = create((set, get) => ({
     try {
       const res = await axiosInstance.post(
         `/messages/send/${selectedUser._id}`,
-        messageData
+        messageData,
       );
       set({ messages: messages.concat(res.data) });
     } catch (error) {

@@ -14,10 +14,13 @@ function ChatContainer() {
     isMessagesLoading,
     subscribeToMessages,
     unsubscribeFromMessages,
+    isTyping,
+    setIsTyping,
   } = useChatStore();
-  const { authUser } = useAuthStore();
+  const { authUser, socket } = useAuthStore();
   const messageEndRef = useRef(null);
 
+  // Effect for fetching messages and subscribing to new ones
   useEffect(() => {
     getMessagesByUserId(selectedUser._id);
     subscribeToMessages();
@@ -31,11 +34,37 @@ function ChatContainer() {
     unsubscribeFromMessages,
   ]);
 
+  // Effect for scrolling to the bottom of the messages
   useEffect(() => {
     if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  // Effect for handling typing indicators
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleTypingStart = ({ from }) => {
+      if (from === selectedUser?._id) {
+        setIsTyping(true);
+      }
+    };
+
+    const handleTypingStop = ({ from }) => {
+      if (from === selectedUser?._id) {
+        setIsTyping(false);
+      }
+    };
+
+    socket.on("typing:start", handleTypingStart);
+    socket.on("typing:stop", handleTypingStop);
+
+    return () => {
+      socket.off("typing:start", handleTypingStart);
+      socket.off("typing:stop", handleTypingStop);
+    };
+  }, [socket, selectedUser, setIsTyping]);
 
   return (
     <>
@@ -81,6 +110,13 @@ function ChatContainer() {
           <MessagesLoadingSkeleton />
         ) : (
           <NoChatHistoryPlaceholder name={selectedUser.fullName} />
+        )}
+      </div>
+
+      {/* Typing indicator */}
+      <div className="h-8 px-6">
+        {isTyping && (
+          <p className="text-sm text-info animate-pulse font-mono">typing...</p>
         )}
       </div>
 
