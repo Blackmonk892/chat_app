@@ -1,3 +1,38 @@
+import { deleteMessageById } from "../services/message.service.js";
+// DELETE /api/messages/:id
+export const deleteMessage = async (req, res) => {
+  try {
+    const messageId = req.params.id;
+    const userId = req.user._id;
+    const deletedMessage = await deleteMessageById(messageId, userId);
+    // Notify both sender and receiver in real-time
+    const { senderId, receiverId } = deletedMessage;
+    const senderSocketId = getReceiverSocketId(senderId);
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (senderSocketId) {
+      io.to(senderSocketId).emit("message:deleted", {
+        _id: deletedMessage._id,
+      });
+    }
+    if (receiverSocketId && receiverSocketId !== senderSocketId) {
+      io.to(receiverSocketId).emit("message:deleted", {
+        _id: deletedMessage._id,
+      });
+    }
+    res
+      .status(200)
+      .json({ message: "Message deleted", _id: deletedMessage._id });
+  } catch (error) {
+    if (error.message === "Message not found") {
+      return res.status(404).json({ message: error.message });
+    }
+    if (error.message.startsWith("Unauthorized")) {
+      return res.status(403).json({ message: error.message });
+    }
+    console.error("Error in deleteMessage controller: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 // backend/src/controllers/message.controller.js
 import {
   getAllContactsExcept,

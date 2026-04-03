@@ -4,6 +4,21 @@ import toast from "react-hot-toast";
 import { useAuthStore } from "./useAuthStore";
 
 export const useChatStore = create((set, get) => ({
+  // Delete a message by ID (soft delete)
+  deleteMessage: async (messageId) => {
+    const { messages } = get();
+    try {
+      await axiosInstance.delete(`/messages/${messageId}`);
+      set({
+        messages: messages.map((msg) =>
+          msg._id === messageId ? { ...msg, isDeleted: true } : msg,
+        ),
+      });
+      toast.success("Message deleted");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to delete message");
+    }
+  },
   allContacts: [],
   chats: [],
   messages: [],
@@ -96,6 +111,7 @@ export const useChatStore = create((set, get) => ({
 
     const socket = useAuthStore.getState().socket;
 
+    // New message event
     socket.on("newMessage", (newMessage) => {
       const isMessageSentFromSelectedUser =
         newMessage.senderId === selectedUser._id;
@@ -106,17 +122,26 @@ export const useChatStore = create((set, get) => ({
 
       if (isSoundEnabled) {
         const notificationSound = new Audio("/sounds/notification.mp3");
-
         notificationSound.currentTime = 0;
         notificationSound
           .play()
           .catch((e) => console.log("Audio play failed:", e));
       }
     });
+
+    // Message deleted event
+    socket.on("message:deleted", ({ _id }) => {
+      set({
+        messages: get().messages.map((msg) =>
+          msg._id === _id ? { ...msg, isDeleted: true } : msg,
+        ),
+      });
+    });
   },
 
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
     socket.off("newMessage");
+    socket.off("message:deleted");
   },
 }));

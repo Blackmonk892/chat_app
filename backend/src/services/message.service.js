@@ -1,6 +1,24 @@
-// backend/src/services/message.service.js
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
+// Soft delete a message by ID (sets isDeleted and deletedAt)
+export const deleteMessageById = async (messageId, userId) => {
+  const message = await Message.findById(messageId);
+  if (!message) {
+    throw new Error("Message not found");
+  }
+  // Only sender can delete (future: add admin check if needed)
+  if (message.senderId.toString() !== userId.toString()) {
+    throw new Error("Unauthorized: Cannot delete this message");
+  }
+  if (message.isDeleted) {
+    return message; // Already deleted
+  }
+  message.isDeleted = true;
+  message.deletedAt = new Date();
+  await message.save();
+  return message;
+};
+// backend/src/services/message.service.js
 
 // Extracted from getAllContacts
 export const getAllContactsExcept = async (loggedInUserId) => {
