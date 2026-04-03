@@ -1,5 +1,6 @@
+// backend/src/utils/token.js
 import jwt from "jsonwebtoken";
-import { ENV } from "./env.js";
+import { ENV } from "../config/env.js";
 
 export const generateToken = (userId, res) => {
   const { JWT_SECRET } = ENV;
@@ -11,10 +12,10 @@ export const generateToken = (userId, res) => {
     {
       userId,
     },
-    ENV.JWT_SECRET,
+    JWT_SECRET,
     {
       expiresIn: "7d",
-    }
+    },
   );
 
   res.cookie("jwt", token, {

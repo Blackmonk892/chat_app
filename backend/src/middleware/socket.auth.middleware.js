@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
-import { ENV } from "../lib/env.js";
+import { ENV } from "../config/env.js";
 
 export const socketAuthMiddleware = async (socket, next) => {
   try {
@@ -30,7 +30,7 @@ export const socketAuthMiddleware = async (socket, next) => {
     socket.userId = user._id.toString();
 
     console.log(
-      `Socket authenticated for user: ${user.fullName} (${user._id})`
+      `Socket authenticated for user: ${user.fullName} (${user._id})`,
     );
 
     next();

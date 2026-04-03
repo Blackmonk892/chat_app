@@ -1,3 +1,4 @@
+// backend/src/routes/message.routes.js
 import express from "express";
 import {
   getAllContacts,

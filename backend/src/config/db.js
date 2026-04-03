@@ -9,7 +9,7 @@ export const connectDB = async () => {
       throw new Error("MONGODB_URL is not defined");
     }
 
-    const connect = await mongoose.connect(process.env.MONGODB_URL);
+    const connect = await mongoose.connect(MONGODB_URL);
     console.log(`MongoDB Connected: ${connect.connection.host}`);
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);

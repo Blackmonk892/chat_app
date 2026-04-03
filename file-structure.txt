@@ -6,20 +6,19 @@
   ├── package-lock.json
   ├── package.json
   └── src
+    ├── app.js
+    ├── config
+      ├── arcjet.js
+      ├── cloudinary.js
+      ├── db.js
+      └── env.js
     ├── controllers
       ├── auth.controller.js
       └── message.controller.js
     ├── emails
       ├── emailHandler.js
-      └── emailTemplates.js
-    ├── lib
-      ├── arcjet.js
-      ├── cloudinary.js
-      ├── db.js
-      ├── env.js
-      ├── resend.js
-      ├── socket.js
-      └── utils.js
+      ├── emailTemplates.js
+      └── resend.js
     ├── middleware
       ├── arcjet.middleware.js
       ├── auth.middleware.js
@@ -27,10 +26,19 @@
     ├── models
       ├── message.model.js
       └── user.model.js
-    ├── routers
-      ├── auth.route.js
-      └── message.route.js
-    └── server.js
+    ├── routes
+      ├── auth.routes.js
+      └── message.routes.js
+    ├── server.js
+    ├── services
+      ├── auth.service.js
+      ├── message.service.js
+      └── upload.service.js
+    ├── sockets
+      └── index.js
+    └── utils
+      └── token.js
+├── file-structure.txt
 ├── frontend
   ├── .gitignore
   ├── bun.lock

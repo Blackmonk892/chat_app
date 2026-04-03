@@ -1,3 +1,4 @@
+// backend/src/routes/auth.routes.js
 import express from "express";
 import {
   signup,
@@ -15,16 +16,14 @@ router.use(arcjetProtection);
 router.get("/test", (req, res) => {
   res.status(200).json({ message: "Arcjet protection passed!" });
 });
+
 router.post("/signup", signup);
-
 router.post("/login", login);
-
 router.post("/logout", logout);
-
 router.put("/update-profile", protectRoute, updateProfile);
 
 router.get("/check", protectRoute, (req, res) =>
-  res.status(200).json(req.user)
+  res.status(200).json(req.user),
 );
 
 export default router;

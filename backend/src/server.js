@@ -1,45 +1,19 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
-import path from "path";
-import cors from "cors";
-import dotenv from "dotenv";
-dotenv.config();
-import { ENV } from "./lib/env.js";
-import authRoutes from "./routers/auth.route.js";
-import messagesRoutes from "./routers/message.route.js";
-import { connectDB } from "./lib/db.js";
-import { app, server } from "./lib/socket.js";
-
-// Allow larger JSON payloads app.use(bodyParser.json({ limit: "10mb" })); app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
-
-const __dirname = path.resolve();
+// backend/src/server.js
+import http from "http";
+import app from "./app.js";
+import { ENV } from "./config/env.js";
+import { connectDB } from "./config/db.js";
+import { initSockets } from "./sockets/index.js";
 
 const PORT = ENV.PORT || 3000;
 
-app.use(express.json({ limit: "5mb" }));
-app.use(
-  cors({
-    origin: ENV.CLIENT_URL,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  })
-);
-console.log("CORS Origin:", ENV.CLIENT_URL);
+// Create HTTP server wrapping the Express app
+const server = http.createServer(app);
 
-app.use(cookieParser());
+// Initialize Socket.io
+initSockets(server);
 
-app.use("/api/auth", authRoutes);
-app.use("/api/messages", messagesRoutes);
-
-if (ENV.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-  app.get("*", (_, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-  });
-}
-
+// Start the server
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   connectDB();
