@@ -5,20 +5,7 @@ import { useAuthStore } from "./useAuthStore";
 
 export const useChatStore = create((set, get) => ({
   // Delete a message by ID (soft delete)
-  deleteMessage: async (messageId) => {
-    const { messages } = get();
-    try {
-      await axiosInstance.delete(`/messages/${messageId}`);
-      set({
-        messages: messages.map((msg) =>
-          msg._id === messageId ? { ...msg, isDeleted: true } : msg,
-        ),
-      });
-      toast.success("Message deleted");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to delete message");
-    }
-  },
+
   allContacts: [],
   chats: [],
   messages: [],
@@ -48,6 +35,21 @@ export const useChatStore = create((set, get) => ({
       toast.error(error.response.data.message);
     } finally {
       set({ isUsersLoading: false });
+    }
+  },
+
+  deleteMessage: async (messageId) => {
+    const { messages } = get();
+    try {
+      await axiosInstance.delete(`/messages/${messageId}`);
+      set({
+        messages: messages.map((msg) =>
+          msg._id === messageId ? { ...msg, isDeleted: true } : msg,
+        ),
+      });
+      toast.success("Message deleted");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to delete message");
     }
   },
 

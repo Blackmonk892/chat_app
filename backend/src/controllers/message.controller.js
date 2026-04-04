@@ -1,4 +1,16 @@
 import { deleteMessageById } from "../services/message.service.js";
+import {
+  getAllContactsExcept,
+  getMessagesBetweenUsers,
+  saveMessage,
+  getChatPartnersForUser,
+} from "../services/message.service.js";
+import { uploadImage } from "../services/upload.service.js";
+import User from "../models/user.model.js";
+
+// Note: We are importing from sockets/index.js which we will create in the next step!
+import { getReceiverSocketId, io } from "../sockets/index.js";
+
 // DELETE /api/messages/:id
 export const deleteMessage = async (req, res) => {
   try {
@@ -34,17 +46,6 @@ export const deleteMessage = async (req, res) => {
   }
 };
 // backend/src/controllers/message.controller.js
-import {
-  getAllContactsExcept,
-  getMessagesBetweenUsers,
-  saveMessage,
-  getChatPartnersForUser,
-} from "../services/message.service.js";
-import { uploadImage } from "../services/upload.service.js";
-import User from "../models/user.model.js";
-
-// Note: We are importing from sockets/index.js which we will create in the next step!
-import { getReceiverSocketId, io } from "../sockets/index.js";
 
 export const getAllContacts = async (req, res) => {
   try {
