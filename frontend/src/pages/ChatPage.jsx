@@ -7,6 +7,7 @@ import ChatsList from "../components/ChatsList";
 import ContactList from "../components/ContactList";
 import ChatContainer from "../components/ChatContainer.jsx";
 import NoConversationPlaceholder from "../components/NoConversationPlaceholder";
+import ChatLayout from "../components/ChatLayout";
 
 function ChatPage() {
   const { activeTab, selectedUser } = useChatStore();
@@ -25,10 +26,10 @@ function ChatPage() {
             </div>
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className="flex-1 flex flex-col bg-base-100/50 backdrop-blur-sm relative">
+          {/* RIGHT + SIDEBAR */}
+          <ChatLayout>
             {selectedUser ? <ChatContainer /> : <NoConversationPlaceholder />}
-          </div>
+          </ChatLayout>
         </div>
       </BorderAnimatedContainer>
     </div>

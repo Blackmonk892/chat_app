@@ -4,6 +4,9 @@ import toast from "react-hot-toast";
 import { useAuthStore } from "./useAuthStore";
 
 export const useChatStore = create((set, get) => ({
+  // Sidebar open/close state for right sidebar
+  isSidebarOpen: false,
+  setSidebarOpen: (open) => set({ isSidebarOpen: open }),
   // Delete a message by ID (soft delete)
 
   allContacts: [],

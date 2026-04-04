@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore.js";
 
 function ChatHeader() {
-  const { selectedUser, setSelectedUser } = useChatStore();
+  const { selectedUser, setSelectedUser, setSidebarOpen } = useChatStore();
   const { onlineUsers } = useAuthStore();
   const isOnline = onlineUsers.includes(selectedUser._id);
 
@@ -40,9 +40,19 @@ function ChatHeader() {
         </div>
       </div>
 
-      <button onClick={() => setSelectedUser(null)}>
-        <XIcon className="w-5 h-5 text-base-content/60 hover:text-primary transition-colors cursor-pointer" />
-      </button>
+      <div className="flex items-center gap-2">
+        {/* Info/Sidebar button */}
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="btn btn-ghost btn-sm text-base-content/60 hover:text-primary"
+          title="View profile & media"
+        >
+          <span className="material-icons align-middle">info</span>
+        </button>
+        <button onClick={() => setSelectedUser(null)}>
+          <XIcon className="w-5 h-5 text-base-content/60 hover:text-primary transition-colors cursor-pointer" />
+        </button>
+      </div>
     </div>
   );
 }
